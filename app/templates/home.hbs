@@ -1,0 +1,115 @@
+<!-- Bootstrap & Animate.css cdn -->
+<link href="https://fastcdn.org/Animate.css/3.4.0/animate.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<style>
+.list-block {
+  padding-top: 80px;
+  padding-left: 15%;
+  padding-bottom: 100px;
+  margin: auto;
+}
+
+.btn-del-user {
+  background-color: transparent;
+  border-color: #000;
+  margin-top: 10px;
+}
+
+.btn-del-user:hover {
+  background-color: #bdc3c7;
+  color: #2c3e50;
+  transition: 0.4s;
+}
+
+</style>
+
+
+<!--
+{{#each tasks as |task|}}
+  <h4>{{task.description}} belongs to: {{task.user.name}}. Its status is {{task.status}} and its type is: {{task.tasktype.name}}</h4>
+{{/each}}
+
+{{#each tasktypes as |tasktype|}}
+  <h3>{{tasktype.name}}</h3>
+{{/each}} -->
+
+<!-- Task-list -->
+
+<!-- {{#each tasks as |task|}}
+<div class="layout-row layout-xs-column ">
+  <div class="layout-column flex-xs flex-gt-xs-20">
+    {{#paper-card as |card|}}
+      {{#card.title as |title|}}
+        {{#title.text as |text|}}
+          {{#text.headline}}
+          {{task.description}}
+          <p> assignee: {{task.user.name}} </p>
+          {{/text.headline}}
+          {{#text.subhead}}
+          {{/text.subhead}}
+        {{/title.text}}
+      {{/card.title}}
+      {{#card.actions}}
+        {{#paper-button}}Update{{/paper-button}}
+        {{#paper-button onClick=(action "deletetask" task.id)}}Delete{{/paper-button}}
+      {{/card.actions}}
+    {{/paper-card}}
+  </div>
+</div>
+{{/each}} -->
+
+<!-- Add User -->
+<div class="col-lg-6 container list-block animated fadeInLeft">
+{{#paper-input
+  value=nameValue
+  onChange=(action (mut nameValue))
+  label="Enter name"
+  type="name" as |input|}}
+    {{#unless input.hasValue}}
+      <div class="hint">Type the user's name{{#paper-button class="add-bottom btn btn-del-user text-center"}}Add{{/paper-button}}</div>
+    {{/unless}}
+  {{/paper-input}}
+
+<!-- Users List -->
+  {{#paper-list}}
+  {{#paper-subheader}}Users list{{/paper-subheader}}
+  {{#each users as |user|}}
+    {{#paper-item class="md-3-line"}}
+      <img src="https://cdn1.iconfinder.com/data/icons/mix-color-4/502/Untitled-1-512.png" alt={{user.name}} class="md-avatar">
+      <div class="md-list-item-text">
+        <h3>{{user.name}}</h3>
+      {{#paper-button class="btn btn-del-user text-center" onClick=(action "deleteuser" user.id)}}Delete{{/paper-button}}
+      </div>
+    {{/paper-item}}
+  {{/each}}
+{{/paper-list}}
+</div>
+
+<!-- Add tasktype -->
+<div class="col-lg-6 container list-block animated fadeInRight">
+{{#paper-input
+  value=tasktypeValue
+  onChange=(action (mut tasktypeValue))
+  label="Enter Task Type"
+  type="name" as |input|}}
+    {{#unless input.hasValue}}
+      <div class="hint">Type the Task Type {{#paper-button class="add-bottom btn btn-del-user text-center"}}Add{{/paper-button}}</div>
+    {{/unless}}
+  {{/paper-input}}
+
+<!-- tasktype List -->
+  {{#paper-list}}
+  {{#paper-subheader}}Task Type list{{/paper-subheader}}
+  {{#each tasktypes as |tasktype|}}
+    {{#paper-item class="md-3-line"}}
+      <img src="https://cdn1.iconfinder.com/data/icons/mix-color-4/502/Untitled-1-512.png" alt={{tasktype.name}} class="md-avatar">
+      <div class="md-list-item-text">
+        <h3>{{tasktype.name}}</h3>
+      {{#paper-button class="btn btn-del-user text-center" onClick=(action "deletetasktype" tasktype.id)}}Delete{{/paper-button}}
+      </div>
+    {{/paper-item}}
+  {{/each}}
+{{/paper-list}}
+</div>
