@@ -1,25 +1,25 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  tasks: Ember.computed(function() {
-    return this.get('store').findAll('task');
+
+  todoTasks: Ember.computed('tasks', function() {
+    return this.get('store').peekAll('task').filterBy('status','todo')
   }),
-  users: Ember.computed(function() {
-    return this.get('store').findAll('user');
+  progressTasks: Ember.computed('tasks', function() {
+    return this.get('store').peekAll('task').filterBy('status','progress')
+  }),
+  doneTasks: Ember.computed('tasks', function() {
+    return this.get('store').peekAll('task').filterBy('status','done')
   }),
   tasktypes: Ember.computed(function() {
     return this.get('store').findAll('tasktype');
   }),
 
+  users: Ember.computed(function() {
+    return this.get('store').findAll('user');
+  }),
+  isShowingModal: false,
   actions: {
-      deletetask(taskid) {
-        let store = this.get('store');
-        store.findRecord('task', taskid, { backgroundReload: false }).then(function(task) {
-        task.deleteRecord();
-        task.get('isDeleted');
-        task.save();
-      });
-    },
 
     deleteuser(userid) {
       let store = this.get('store');
@@ -37,6 +37,30 @@ export default Ember.Controller.extend({
       tasktype.get('isDeleted');
       tasktype.save();
       });
+    },
+
+
+    deleteTask(taskid) {
+        let store = this.get('store');
+        store.findRecord('task', taskid, { backgroundReload: false }).then(function(task) {
+        task.deleteRecord();
+        task.get('isDeleted');
+        task.save();
+      });
+    },
+
+    addTask(taskDescription, userId, tasktypeId){
+      let store = this.get('store');
+      const task = this.store.createRecord('task', {
+        description: taskDescription,
+        user_id: userId,
+        tasktype_id: tasktypeId
+      });
+      task.save();
+    },
+
+    toggleModal: function() {
+        this.toggleProperty('isShowingModal');
     }
   }
 });
