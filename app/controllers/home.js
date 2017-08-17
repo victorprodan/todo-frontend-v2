@@ -2,23 +2,28 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
 
-  todoTasks: Ember.computed('tasks', function() {
-    return this.get('store').peekAll('task').filterBy('status','todo')
+  tasks: Ember.computed(function() {
+    return this.get('store').findAll('task');
   }),
-  progressTasks: Ember.computed('tasks', function() {
-    return this.get('store').peekAll('task').filterBy('status','progress')
+
+  todoTasks: Ember.computed('tasks.length', function() {
+    return this.get('tasks').filterBy('status','todo')
   }),
-  doneTasks: Ember.computed('tasks', function() {
-    return this.get('store').peekAll('task').filterBy('status','done')
+  progressTasks: Ember.computed('tasks.length', function() {
+    return this.get('tasks').filterBy('status','progress')
+  }),
+  doneTasks: Ember.computed('tasks.length', function() {
+    return this.get('tasks').filterBy('status','done')
   }),
   tasktypes: Ember.computed(function() {
     return this.get('store').findAll('tasktype');
   }),
-
   users: Ember.computed(function() {
     return this.get('store').findAll('user');
   }),
+
   isShowingModal: false,
+
   actions: {
 
     deleteuser(userid) {
@@ -49,16 +54,29 @@ export default Ember.Controller.extend({
       });
     },
 
-    addTask(taskDescription, userId, tasktypeId){
-      let store = this.get('store');
-      const task = this.store.createRecord('task', {
-        description: taskDescription,
-        user_id: userId,
-        tasktype_id: tasktypeId
+    addUser(userName){
+      const us = this.store.createRecord('user', {
+        name: userName
       });
-      task.save();
+      us.save();
     },
 
+    addTaskType(taskTypeName){
+      const tt = this.store.createRecord('tasktype', {
+        name: taskTypeName
+      });
+      tt.save();
+    },
+
+    addTask(taskDescription, userId, tasktypeId){
+      const u = this.store.createRecord('task', {
+        description: taskDescription,
+        status: "todo",
+        user_id: this.store.peekRecord('user', userId),
+        tasktype_id: this.store.peekRecord('tasktype', tasktypeId)
+      });
+      u.save();
+    },
     toggleModal: function() {
         this.toggleProperty('isShowingModal');
     }

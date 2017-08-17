@@ -1,0 +1,97 @@
+.background{
+  height: 800px;
+  background-image: url("https://static.pexels.com/photos/442574/pexels-photo-442574.jpeg");
+  background-size: cover;
+  top: 0;
+}
+
+.banner{
+  top: 0px;
+}
+
+.banner h1{
+  padding-top: 300px;
+}
+
+.settings{
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+.line{
+  height: 6px;
+  background-color: #ecf0f1;
+  margin-top: 100px;
+}
+
+.task-section{
+  padding-top: 100px;
+}
+
+.list-block {
+  padding-top: 80px;
+  padding-left: 15%;
+  padding-bottom: 100px;
+  margin: auto;
+}
+
+.btn-ac-space-one{
+    margin-top: 25px;
+}
+
+.btn-ac-space-two{
+  margin-top: 15px;
+}
+
+.btn-ac{
+  background-color: #ecf0f1;
+  border-color: #000 1px solid;
+  border-radius: 5%;
+}
+
+// .btn-ac:hover, {
+//   background-color: #bdc3c7;
+//   color: #2c3e50;
+//   transition: 0.4s;
+// }
+
+.coppy-r{
+  padding-top: 100px;
+  padding-bottom: 50px;
+}
+
+
+/*scrollable div*/
+.todoTasks, .progressTasks, .donetasks, .userTable, .tasktypeTable{
+  max-height: 500px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+/*end scrollable div*/
+
+.table-content{
+  margin-top: 20px;
+}
+
+#scroll::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+#scroll::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+}
+
+#scroll::-webkit-scrollbar-thumb
+{
+	background-color: #000000;
+	border: 2px solid #555555;
+}
+
+
+.task-section{
+
+}

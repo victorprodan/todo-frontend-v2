@@ -3,78 +3,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-<!-- CSS -->
-
-<style>
-.background{
-  height: 800px;
-  background-image: url("https://static.pexels.com/photos/442574/pexels-photo-442574.jpeg");
-  background-size: cover;
-  top: 0;
-}
-
-.banner{
-  top: 0px;
-}
-
-.banner h1{
-  padding-top: 300px;
-}
-
-.settings{
-  padding-top: 100px;
-  padding-bottom: 100px;
-}
-
-.line{
-  height: 6px;
-  background-color: #ecf0f1;
-  margin-top: 100px;
-}
-
-.task-section{
-  padding-top: 100px;
-}
-
-.list-block {
-  padding-top: 80px;
-  padding-left: 15%;
-  padding-bottom: 100px;
-  margin: auto;
-}
-
-.btn-del-user, .btn-ac {
-  background-color: trasparent;
-  border-color: #000;
-  margin-top: 10px;
-}
-
-.btn-del-user:hover, {
-  background-color: #bdc3c7;
-  color: #2c3e50;
-  transition: 0.4s;
-}
-
-.coppy-r{
-  padding-top: 100px;
-  padding-bottom: 50px;
-}
-
-
-/*scrollable div*/
-.todoTasks, .progressTasks, .donetasks, .userTable, .tasktypeTable{
-  max-height: 500px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  /*flex: 1 0 0;*/
-}
-/*end scrollable div*/
-
-.table-content{
-  margin-top: 20px;
-}
-</style>
-
 <!-- HEADER -->
 
 <section class="container-fluid banner background text-center" align="center">
@@ -87,7 +15,7 @@
 <!-- TASK LIST SECTION -->
 <div id="tasks" class="container task-section">
 
-<div class="col-lg-4 todoTasks layout-align-space-around-center animated fadeInLeft">
+<div class="col-lg-4 todoTasks layout-align-space-around-center animated fadeInLeft" id="scroll">
 {{#each todoTasks as |task|}}
   {{#draggable-object}}
   {{#paper-card as |card|}}
@@ -107,8 +35,8 @@
                   </div>
                   {{paper-divider}}
                 {{/paper-item}}
-                {{#paper-button class="btn btn-ac"}}Update{{/paper-button}}
-                {{#paper-button class="btn btn-ac"}}Delete{{/paper-button}}
+                {{#paper-button class="btn-ac-space-one btn-ac"}}Update{{/paper-button}}
+                {{#paper-button class="btn-ac-space-one btn-ac" onClick=(action "deleteTask" task.id)}}Delete{{/paper-button}}
           {{/paper-list}}
         {{/card.media}}
       {{/card.content}}
@@ -118,7 +46,7 @@
 </div>
 
 
-<div class="col-lg-4 layout-align-space-around-center  animated fadeIn">
+<div class="col-lg-4 progressTasks layout-align-space-around-center animated fadeIn" id="scroll">
   {{#draggable-object-target}}
   <div id="drag-container">
   {{#each progressTasks as |task|}}
@@ -140,8 +68,8 @@
                     </div>
                     {{paper-divider}}
                   {{/paper-item}}
-                  {{#paper-button class="btn btn-ac"}}Update{{/paper-button}}
-                  {{#paper-button class="btn btn-ac"}}Delete{{/paper-button}}
+                  {{#paper-button class="btn-ac-space-one btn-ac"}}Update{{/paper-button}}
+                  {{#paper-button class="btn-ac-space-one btn-ac" onClick=(action "deleteTask" task.id)}}Delete{{/paper-button}}
             {{/paper-list}}
           {{/card.media}}
         {{/card.content}}
@@ -152,7 +80,7 @@
   {{/draggable-object-target}}
 </div>
 
-<div class="col-lg-4 layout-align-space-around-center  animated fadeInRight">
+<div class="col-lg-4 doneTasks layout-align-space-around-center animated fadeInRight" id="scroll">
 {{#each doneTasks as |task|}}
 {{#draggable-object}}
   {{#paper-card as |card|}}
@@ -173,8 +101,7 @@
                   </div>
                   {{paper-divider}}
                 {{/paper-item}}
-                {{#paper-button class="btn btn-ac"}}Update{{/paper-button}}
-                {{#paper-button class="btn btn-ac"}}Delete{{/paper-button}}
+                {{#paper-button class="btn-ac-space-one btn-ac" onClick=(action "deleteTask" task.id)}}Delete{{/paper-button}}
           {{/paper-list}}
         {{/card.media}}
       {{/card.content}}
@@ -221,7 +148,7 @@
 
             </div>
 
-            {{#paper-button class="btn btn-ac" align="center" onClick=(action "addTask" taskDescription selectedUser.id selectedTaskType.id)}}Create Task{{/paper-button}}
+            {{#paper-button class=" layout-column btn-ac" align="center" onClick=(action "addTask" taskDescription selectedUser.id selectedTaskType.id)}}Create Task{{/paper-button}}
 
           {{/paper-form}}
       {{/modal-dialog}}
@@ -250,15 +177,15 @@
   <div class="col-lg-6 text-center animated fadeInLeft" align="center">
     <div class="layout-row layout-align-center">
       {{paper-input class="flex-30" label="Add a new user" value=userName onChange=(action (mut userName))}}
-      {{#paper-button class="btn btn-ac"}}Add User{{/paper-button}}
+      {{#paper-button class="btn btn-ac" onClick=(action "addUser" userName)}}Add User{{/paper-button}}
     </div>
-    {{#paper-list class="userTable table-content"}}
+    {{#paper-list class="userTable table-content" id="scroll"}}
     {{#each users as |user|}}
       {{#paper-item class="md-3-line"}}
         <img src="http://simpleicon.com/wp-content/uploads/user1.png" class="md-avatar img-responsive">
         <div class="md-list-item-text">
           <h4>{{user.name}}</h4>
-          {{#paper-button class="btn btn-ac" onClick=(action "deleteuser" user.id)}}Delete{{/paper-button}}
+          {{#paper-button class="btn-ac-space-two btn-ac" onClick=(action "deleteuser" user.id)}}Delete{{/paper-button}}
         </div>
       {{/paper-item}}
     {{/each}}
@@ -268,15 +195,15 @@
   <div class="col-lg-6 text-center animated fadeInRight" align="center">
     <div class="layout-row layout-align-center">
       {{paper-input class="flex-30" label="Add a new task type" value=taskTypeName onChange=(action (mut taskTypeName))}}
-      {{#paper-button class="btn btn-ac"}}Add Task Type{{/paper-button}}
+      {{#paper-button class="btn btn-ac" onClick=(action "addTaskType" taskTypeName)}}Add Task Type{{/paper-button}}
     </div>
-    {{#paper-list class="tasktypeTable table-content"}}
+    {{#paper-list class="tasktypeTable table-content" id="scroll"}}
     {{#each tasktypes as |tasktype|}}
       {{#paper-item class="md-3-line"}}
         <img src="http://icons.iconarchive.com/icons/icons8/windows-8/512/Very-Basic-Settings-icon.png" class="md-avatar img-responsive">
         <div class="md-list-item-text">
           <h4>{{tasktype.name}}</h4>
-          {{#paper-button class="btn btn-ac" onClick=(action "deletetasktype" tasktype.id)}}Delete{{/paper-button}}
+          {{#paper-button class="btn-ac-space-two btn-ac" onClick=(action "deletetasktype" tasktype.id)}}Delete{{/paper-button}}
         </div>
       {{/paper-item}}
     {{/each}}
