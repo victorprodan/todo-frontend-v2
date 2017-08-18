@@ -6,13 +6,13 @@ export default Ember.Controller.extend({
     return this.get('store').findAll('task');
   }),
 
-  todoTasks: Ember.computed('tasks.length', function() {
+  todoTasks: Ember.computed('tasks.length','tasks.@each.status', function() {
     return this.get('tasks').filterBy('status','todo')
   }),
-  progressTasks: Ember.computed('tasks.length', function() {
+  progressTasks: Ember.computed('tasks.length','tasks.@each.status', function() {
     return this.get('tasks').filterBy('status','progress')
   }),
-  doneTasks: Ember.computed('tasks.length', function() {
+  doneTasks: Ember.computed('tasks.length','tasks.@each.status', function() {
     return this.get('tasks').filterBy('status','done')
   }),
   tasktypes: Ember.computed(function() {
@@ -72,13 +72,21 @@ export default Ember.Controller.extend({
       const u = this.store.createRecord('task', {
         description: taskDescription,
         status: "todo",
-        user_id: this.store.peekRecord('user', userId),
-        tasktype_id: this.store.peekRecord('tasktype', tasktypeId)
+        user: this.store.peekRecord('user', userId),
+        tasktype: this.store.peekRecord('tasktype', tasktypeId)
       });
       u.save();
+      this.send("toggleModal");
     },
     toggleModal: function() {
         this.toggleProperty('isShowingModal');
-    }
-  }
+    },
+
+  updateStatus: function(task, ops) {
+
+     var status = ops.target.status;
+     task.set("status", status);
+     task.save();
+   }
+ }
 });
