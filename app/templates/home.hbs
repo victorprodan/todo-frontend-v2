@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+
 <!-- HEADER -->
 
 <section class="container-fluid banner background text-center" align="center">
@@ -18,6 +19,8 @@
 <div id="tasks" class="container task-section">
 
 <div class="col-lg-4 todoTasks layout-align-space-around-center animated fadeInLeft" id="custom">
+<h4 class="text-center">{{todoTasks.length}} item/items</h4>
+
 {{#each todoTasks as |task|}}
   {{#draggable-object content=task}}
   {{#paper-card as |card|}}
@@ -31,9 +34,10 @@
           {{#paper-list}}
                 {{#paper-item class="md-3-line"}}
                   <div class="md-list-item-text">
-                    <h3>{{task.description }}</h3>
-                    <p>Type: {{task.tasktype.name}}</p>
+                    <h3 class="description-text">{{task.description }}</h3>
+                    <h4>Type: {{task.tasktype.name}}</h4>
                     <h4>Assigned to: {{task.user.name}}</h4>
+                    <p>Created at: {{task.createdAt}}</p>
                   </div>
                   {{paper-divider}}
                 {{/paper-item}}
@@ -45,9 +49,10 @@
 {{/each}}
 </div>
 
+
 <div class="col-lg-4 progressTasks layout-align-space-around-center animated fadeIn" id="custom">
   {{#draggable-object-target action="updateStatus" status="progress"}}
-
+  <h4 class="text-center">{{progressTasks.length}} item/items</h4>
   {{#each progressTasks as |task|}}
     {{#draggable-object content=task}}
     {{#paper-card as |card|}}
@@ -62,9 +67,10 @@
             {{#paper-list}}
                   {{#paper-item class="md-3-line"}}
                     <div class="md-list-item-text">
-                      <h3>{{task.description }}</h3>
-                      <p>Type: {{task.tasktype.name }}</p>
+                      <h3 class="description-text">{{task.description }}</h3>
+                      <h4>Type: {{task.tasktype.name }}</h4>
                       <h4>Assigned to: {{task.user.name }}</h4>
+                      <p>Updated at: {{task.updatedAt}}</p>
                     </div>
                     {{paper-divider}}
                   {{/paper-item}}
@@ -79,13 +85,13 @@
 
 
 <div class="col-lg-4 doneTasks layout-align-space-around-center animated fadeInRight" id="custom">
+  <h4 class="text-center">{{doneTasks.length}} item/items</h4>
 {{#draggable-object-target action="updateStatus" status="done"}}
 {{#each doneTasks as |task|}}
   {{#paper-card as |card|}}
     {{#card.title as |title|}}
       {{#title.text as |text|}}
         {{#text.headline}}Done {{paper-icon "check" size=24}}{{/text.headline}}
-
       {{/title.text}}
     {{/card.title}}
       {{#card.content class="layout-row layout-align-space-between"}}
@@ -93,9 +99,10 @@
           {{#paper-list}}
                 {{#paper-item class="md-3-line"}}
                   <div class="md-list-item-text">
-                    <h3>{{task.description }}</h3>
-                    <p>Type: {{task.tasktype.name }}</p>
+                    <h3 class="description-text">{{task.description }}</h3>
+                    <h4>Type: {{task.tasktype.name}}</h4>
                     <h4>Assigned to: {{task.user.name }}</h4>
+                    <p>Updated at: {{task.updatedAt}}</p>
                   </div>
                   {{paper-divider}}
                 {{/paper-item}}
@@ -125,7 +132,7 @@
           {{#paper-form as |form|}}
             <div class="layout-column">
 
-              {{form.input label="Description" value=taskDescription onChange=(action (mut taskDescription)) required=true}}
+              {{#form.input maxlength="15" label="Description" value=taskDescription onChange=(action (mut taskDescription)) required=true}}{{/form.input}}
 
               {{#form.select
                 placeholder="Assign to a user"

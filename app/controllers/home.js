@@ -83,10 +83,29 @@ export default Ember.Controller.extend({
     },
 
   updateStatus: function(task, ops) {
-
      var status = ops.target.status;
      task.set("status", status);
      task.save();
+   },
+
+
+
+   updateTask(taskDescription, userId, tasktypeId){
+     const a = this.store.createRecord('task', {
+       description: taskDescription,
+       user: this.store.peekRecord('user', userId),
+       tasktype: this.store.peekRecord('tasktype', tasktypeId)
+     });
+     var status = ops.target.status;
+     task.set("description", description);
+     task.set("user", user);
+     task.set("tasktype", tasktype);
+     u.save();
+     this.send("toggleModal");
+   },
+   toggleModal: function() {
+       this.toggleProperty('isShowingModal');
    }
+
  }
 });
