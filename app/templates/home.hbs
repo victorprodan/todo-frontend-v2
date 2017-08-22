@@ -7,26 +7,32 @@
 <!-- HEADER -->
 
 <section class="container-fluid banner background text-center" align="center">
-  <div class="banner-el">
-    <img src="http://franciscomonaco.com/wp-content/themes/theshredderawakens/img/logo-black.png" class="img-responsive banner-img">
-    <h1>TASK APP</h1>
-    {{#paper-button href="#set" id="getstarted" class="btn btn-ac animated fadeIn"}}Settings{{/paper-button}}
-    {{#paper-button href="#tasks" id="show" class="btn btn-ac animated fadeIn"}}View Tasks{{/paper-button}}
+  <div class="banner-el layout-row layout-align-center-center">
+    <figure class="snip1084 red">
+  <img class="layout-column layout-align-center-center" src="http://www.cityrider.com/fixed/43aspect.png" alt="background" />
+  <figcaption>
+    <h2 class="animated fadeInDown"><span>Task</span>App   </h2>
+    <p>This application will help you manage your daily tasks</p>
+  </figcaption>
+  </figure>
   </div>
+  {{#paper-button href="#set" id="getstarted" class="btn-ac animated fadeIn"}}Settings{{/paper-button}}
+  {{#paper-button href="#tasks" id="show" class="btn-ac animated fadeIn"}}View Tasks{{/paper-button}}
 </section>
 
+
 <!-- TASK LIST SECTION -->
+<div class="container-fluid task-section-bkg">
 <div id="tasks" class="container task-section">
-
 <div class="col-lg-4 todoTasks layout-align-space-around-center animated fadeInLeft" id="custom">
-<h4 class="text-center">{{todoTasks.length}} item/items</h4>
-
+<h4 class="text-center">To do: {{todoTasks.length}}</h4>
 {{#each todoTasks as |task|}}
   {{#draggable-object content=task}}
-  {{#paper-card as |card|}}
+  {{#paper-card class="tdcard" as |card|}}
     {{#card.title as |title|}}
       {{#title.text as |text|}}
         {{#text.headline}}To Do {{paper-icon "error-outline" size=24}}{{/text.headline}}
+        {{#paper-button class="btn-ac" onClick=(action "toggleDialog")}}Details{{/paper-button}}
       {{/title.text}}
     {{/card.title}}
       {{#card.content class="layout-row layout-align-space-between"}}
@@ -34,10 +40,10 @@
           {{#paper-list}}
                 {{#paper-item class="md-3-line"}}
                   <div class="md-list-item-text">
-                    <h3 class="description-text">{{task.description }}</h3>
-                    <h4>Type: {{task.tasktype.name}}</h4>
-                    <h4>Assigned to: {{task.user.name}}</h4>
-                    <p>Created at: {{task.createdAt}}</p>
+                    <h3 class="description-text">{{task.description}}</h3>
+                      <h4>Type: {{task.tasktype.name}}</h4>
+                      <h4>Assigned to: {{task.user.name}}</h4>
+                      <p class="time-details"> - Created at: {{task.createdAt}}</p>
                   </div>
                   {{paper-divider}}
                 {{/paper-item}}
@@ -51,14 +57,15 @@
 
 
 <div class="col-lg-4 progressTasks layout-align-space-around-center animated fadeIn" id="custom">
-  {{#draggable-object-target action="updateStatus" status="progress"}}
+  {{#draggable-object-target class="drop" action="updateStatus" status="progress"}}
   <h4 class="text-center">{{progressTasks.length}} item/items</h4>
   {{#each progressTasks as |task|}}
     {{#draggable-object content=task}}
-    {{#paper-card as |card|}}
+    {{#paper-card class="pcard" as |card|}}
       {{#card.title as |title|}}
         {{#title.text as |text|}}
           {{#text.headline}}In Progress {{paper-icon "rotate-right" spin=true size=24}}{{/text.headline}}
+          {{#paper-button class="btn-ac" onClick=(action "toggleDialog")}}Details{{/paper-button}}
         {{/title.text}}
       {{/card.title}}
         {{#card.content class="layout-row layout-align-space-between"}}
@@ -70,7 +77,7 @@
                       <h3 class="description-text">{{task.description }}</h3>
                       <h4>Type: {{task.tasktype.name }}</h4>
                       <h4>Assigned to: {{task.user.name }}</h4>
-                      <p>Updated at: {{task.updatedAt}}</p>
+                      <p class="time-details">Updated at: {{task.updatedAt}}</p>
                     </div>
                     {{paper-divider}}
                   {{/paper-item}}
@@ -84,11 +91,12 @@
 </div>
 
 
+<!-- <h4 class="text-center">{{doneTasks.length}} item/items</h4> -->
 <div class="col-lg-4 doneTasks layout-align-space-around-center animated fadeInRight" id="custom">
-  <h4 class="text-center">{{doneTasks.length}} item/items</h4>
-{{#draggable-object-target action="updateStatus" status="done"}}
+{{#draggable-object-target class="drop" action="updateStatus" status="done"}}
+<h5>Done Tasks ({{doneTasks.length}})</h5>
 {{#each doneTasks as |task|}}
-  {{#paper-card as |card|}}
+  {{#paper-card class="dcard" as |card|}}
     {{#card.title as |title|}}
       {{#title.text as |text|}}
         {{#text.headline}}Done {{paper-icon "check" size=24}}{{/text.headline}}
@@ -102,10 +110,12 @@
                     <h3 class="description-text">{{task.description }}</h3>
                     <h4>Type: {{task.tasktype.name}}</h4>
                     <h4>Assigned to: {{task.user.name }}</h4>
-                    <p>Updated at: {{task.updatedAt}}</p>
+                    <p class="time-details">Updated at: {{task.updatedAt}}</p>
                   </div>
                   {{paper-divider}}
                 {{/paper-item}}
+                {{#paper-button class="btn-ac btn-del" onClick=(action "deleteTask" task.id)}}Delete{{/paper-button}}
+
                 {{/paper-list}}
         {{/card.media}}
       {{/card.content}}
@@ -113,62 +123,91 @@
 {{/each}}
 {{/draggable-object-target}}
 </div>
-
-
+</div>
+<!-- ADD TASK BUTTON -->
+<div class="addTask layout-row layout-align-center">
+{{#paper-button onClick=(action "toggleTaskDialog") class="add-task-btn"}}Add Task{{/paper-button}}
+</div>
+<!-- END ADD TASK BUTTON -->
 </div>
 <!-- END TASK LIST SECTION -->
 
-<!-- ADD TASK BUTTON -->
-
-<div class="addTask layout-row layout-align-center">
-{{#paper-button onClick=(action "toggleModal") class="add-task-btn"}}Add Task{{/paper-button}}
-
-{{#if isShowingModal}}
-    <div class="layout-row layout-align-center">
-      {{#modal-dialog onClose="toggleModal"
-                      targetAttachment="center"
-                      translucentOverlay=true}}
-
-          {{#paper-form as |form|}}
-            <div class="layout-column">
-
-              {{#form.input maxlength="15" label="Description" value=taskDescription onChange=(action (mut taskDescription)) required=true}}{{/form.input}}
-
-              {{#form.select
-                placeholder="Assign to a user"
-                selected=selectedUser
-                options=users
-                onChange=(action (mut selectedUser))
-                as |user|}}
-                {{user.name}}
-              {{/form.select}}
-
-              {{#form.select
-                placeholder="Type of Tasks"
-                selected=selectedTaskType
-                options=tasktypes
-                onChange=(action (mut selectedTaskType))
-                as |tasktype|}}
-                {{tasktype.name}}
-              {{/form.select}}
-
-            </div>
-
-            {{#paper-button class="btn-ac" align="center" onClick=(action "addTask" taskDescription selectedUser.id selectedTaskType.id)}}Create Task{{/paper-button}}
-            {{#paper-button class="btn-ac" onClick=(action "toggleModal")}}Cancel{{/paper-button}}
-
-          {{/paper-form}}
-      {{/modal-dialog}}
-    </div>
+<!-- DETAILS DIALOG -->
+{{#if showDialog}}
+  {{#paper-dialog class="flex-50" onClose=(action "toggleDialog") clickOutsideToClose=true}}
+    <form>
+      {{#paper-toolbar}}
+        {{#paper-toolbar-tools}}
+          <h2>Task Details</h2>
+          <span class="flex"></span>
+        {{/paper-toolbar-tools}}
+      {{/paper-toolbar}}
+      {{#paper-dialog-content}}
+          <h3>
+            Task description:
+          </h3>
+          <p>
+            Username:
+          </p>
+          <p>
+            TaskType:
+          </p>
+      {{/paper-dialog-content}}
+      {{#paper-dialog-actions class="layout-row"}}
+        <span class="flex"></span>
+        {{#paper-button class="btn-ac" onClick=(action "toggleDialog")}}OK{{/paper-button}}
+      {{/paper-dialog-actions}}
+    </form>
+  {{/paper-dialog}}
 {{/if}}
+<!-- END DETAILS DIALOG -->
 
-{{#each tas as |user|}}
-{{/each}}
 
-{{#each users as |user|}}
-{{/each}}
-</div>
-<!-- END ADD TASK BUTTON -->
+
+
+<!-- ADD DIALOG -->
+
+{{#if showTaskDialog}}
+  {{#paper-dialog class="flex-77" onClose=(action "toggleTaskDialog") origin=dialogOrigin clickOutsideToClose=true}}
+    {{#paper-toolbar}}
+      {{#paper-toolbar-tools}}
+        <h2>Add Task</h2>
+        <span class="flex"></span>
+        {{#paper-button iconButton=true onClick=(action "toggleTaskDialog")}}{{paper-icon icon="close"}}{{/paper-button}}
+      {{/paper-toolbar-tools}}
+    {{/paper-toolbar}}
+
+    {{#paper-dialog-content class="layout-column"}}
+    {{#paper-input maxlength="25" label="Description" value=taskDescription onChange=(action (mut taskDescription)) required=true}}{{/paper-input}}
+
+    {{#paper-select
+      placeholder="Assign to a user"
+      selected=selectedUser
+      options=users
+      onChange=(action (mut selectedUser))
+      as |user|}}
+      {{user.name}}
+    {{/paper-select}}
+
+    {{#paper-select
+    placeholder="Choose a task type"
+    selected=selectedTaskType
+    options=tasktypes
+    onChange=(action (mut selectedTaskType))
+    as |tasktype|}}
+    {{tasktype.name}}
+    {{/paper-select}}
+    {{/paper-dialog-content}}
+
+
+    {{#paper-dialog-actions}}
+      <span class="flex"></span>
+      {{#paper-button id="#divac" href="#tasks" onClick=(action "addTask" taskDescription selectedUser.id selectedTaskType.id)}}Create Task{{/paper-button}}
+      {{#paper-button onClick=(action "toggleTaskDialog")}}Cancel{{/paper-button}}
+    {{/paper-dialog-actions}}
+  {{/paper-dialog}}
+{{/if}}
+<!-- END DIALOG -->
 
 <!-- INTIMIDATING LINE -->
 <div class="containter-fluid line"></div>
@@ -184,7 +223,7 @@
   <div class="col-lg-6 text-center animated fadeInLeft" align="center">
     <div class="layout-row layout-align-center">
       {{paper-input class="flex-30" label="Add a new user" value=userName onChange=(action (mut userName))}}
-      {{#paper-button class="btn btn-ac" onClick=(action "addUser" userName)}}Add User{{/paper-button}}
+      {{#paper-button class="btn-ac" onClick=(action "addUser" userName)}}Add User{{/paper-button}}
     </div>
     {{#paper-list class="userTable table-content" id="scroll"}}
     {{#each users as |user|}}
@@ -202,7 +241,7 @@
   <div class="col-lg-6 text-center animated fadeInRight" align="center">
     <div class="layout-row layout-align-center">
       {{paper-input class="flex-30" label="Add a new task type" value=taskTypeName onChange=(action (mut taskTypeName))}}
-      {{#paper-button class="btn btn-ac" onClick=(action "addTaskType" taskTypeName)}}Add Task Type{{/paper-button}}
+      {{#paper-button class="btn-ac" onClick=(action "addTaskType" taskTypeName)}}Add Task Type{{/paper-button}}
     </div>
     {{#paper-list class="tasktypeTable table-content" id="scroll"}}
     {{#each tasktypes as |tasktype|}}
@@ -219,7 +258,7 @@
 </section>
 
 <section class="container footer layout-row layout-align-center">
-{{#paper-button id="bottom" class="btn btn-ac layout-row layout-align-center"}}Go Up{{/paper-button}}
+{{#paper-button id="bottom" class="btn-ac layout-row layout-align-center"}}Go Up{{/paper-button}}
 </section>
 
 <!-- INTIMIDATING LINE -->
@@ -230,6 +269,9 @@
 </div>
 
 <script>
+
+// SCROLLERS
+
 $(document).ready(function() {
 $("#bottom").click(function() {
      $('html, body').animate({
@@ -252,6 +294,25 @@ $("#show").click(function() {
          scrollTop: $("#tasks").offset().top
      }, 1500);
  });
+});
+
+$(document).ready(function() {
+$("#divac").click(function() {
+     $('html, body').animate({
+         scrollTop: $("#tasks").offset().top
+     }, 1500);
+ });
+
+// END SCROLLERS
+
+// HEADER EFFECT
+
+$("figure").mouseleave(
+   function() {
+     $(this).removeClass("hover");
+   }
+ );
+
 });
 
 

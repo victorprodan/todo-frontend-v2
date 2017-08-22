@@ -23,6 +23,8 @@ export default Ember.Controller.extend({
   }),
 
   isShowingModal: false,
+  showDialog: false,
+  showTaskDialog: false,
 
   actions: {
 
@@ -48,11 +50,10 @@ export default Ember.Controller.extend({
     deleteTask(taskid) {
         let store = this.get('store');
         store.findRecord('task', taskid, { backgroundReload: false }).then(function(task) {
-        task.deleteRecord();
-        task.get('isDeleted');
-        task.save();
+        task.destroyRecord();
       });
     },
+
 
     addUser(userName){
       const us = this.store.createRecord('user', {
@@ -82,6 +83,21 @@ export default Ember.Controller.extend({
         this.toggleProperty('isShowingModal');
     },
 
+    addTask(taskDescription, userId, tasktypeId){
+      const u = this.store.createRecord('task', {
+        description: taskDescription,
+        status: "todo",
+        user: this.store.peekRecord('user', userId),
+        tasktype: this.store.peekRecord('tasktype', tasktypeId)
+      });
+      u.save();
+      this.send("toggleTaskDialog");
+    },
+    toggleTaskDialog: function() {
+        this.toggleProperty('showTaskDialog');
+    },
+
+
   updateStatus: function(task, ops) {
      var status = ops.target.status;
      task.set("status", status);
@@ -89,6 +105,10 @@ export default Ember.Controller.extend({
    },
 
 
+
+   toggleDialog: function() {
+       this.toggleProperty('showDialog');
+   },
 
    updateTask(taskDescription, userId, tasktypeId){
      const a = this.store.createRecord('task', {
