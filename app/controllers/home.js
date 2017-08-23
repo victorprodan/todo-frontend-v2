@@ -22,6 +22,7 @@ export default Ember.Controller.extend({
     return this.get('store').findAll('user');
   }),
 
+  selectedTask: null,
   isShowingModal: false,
   showDialog: false,
   showTaskDialog: false,
@@ -108,6 +109,11 @@ export default Ember.Controller.extend({
 
    toggleDialog: function() {
        this.toggleProperty('showDialog');
+   },
+
+   setSelectedTask(task) {
+     this.set('selectedTask', task)
+     this.toggleProperty('showDialog');
    },
 
    updateTask(taskDescription, userId, tasktypeId){

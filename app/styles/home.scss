@@ -1,3 +1,4 @@
+// BANNER ELEMENTS
 .background{
   height: 900px;
   background-image: url('https://static.pexels.com/photos/273238/pexels-photo-273238.jpeg');
@@ -9,57 +10,24 @@
   position: relative;
   padding-top: 150px;
 }
+// END BANNER ELEMENTS
 
-.settings{
-  padding-top: 100px;
-}
-
-.line{
-  height: 6px;
-  background-color: #ecf0f1;
+// DESIGN LINE
+.line, .line-settings{
+  height: 4px;
+  background-color: #7f8c8d;
   margin-top: 100px;
 }
 
+.line-settings{
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+//END DESIGN LINE
+
+// TASK SECTION
 .task-section{
   padding-top: 100px;
-}
-
-.task-section-bkg{
-  // background-color: #E3EEFF;
-}
-
-.card:hover{
-  border-width: 2px;
-  border-color: #000;
-}
-
-.list-block {
-  padding-top: 80px;
-  padding-left: 15%;
-  padding-bottom: 100px;
-  margin: auto;
-}
-
-.btn-ac-space-one{
-    margin-top: 25px;
-}
-
-.btn-ac-space-two{
-  margin-top: 15px;
-}
-
-.items{
-  background-color: #fff;
-}
-
-.items:hover{
-  background-color: #f7f7f7;
-  transition: 0.3s;
-}
-
-.btn-ac{
-  background-color: transparent;
-  border: 1px solid #000;
 }
 
 .pcard{
@@ -89,24 +57,6 @@
   transition: 0.3s;
 }
 
-.btn-ac:hover, {
-  color: #000;
-  transition: 0.3s;
-}
-
-.coppy-r{
-  padding-top: 100px;
-  padding-bottom: 50px;
-}
-
-.description-text, .time-details{
-  display: block;
-  width: 210px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
 .btn-del{
   margin-top: 20px;
 }
@@ -115,9 +65,12 @@
   height: 500px;
 }
 
-.dimens{
-  width: 60%;
-  margin: 20px 0px 20px 0px;
+.description-text, .time-details{
+  display: block;
+  width: 210px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .todoTasks, .progressTasks, .doneTasks, .userTable, .tasktypeTable{
@@ -135,41 +88,91 @@
   border: 1px solid #000;
 }
 
-
-
 .add-task-btn:hover{
   background-color: #bdc3c7;
   transition: 0.4s;
   padding: 20px 70px 20px 70px;
 }
+//END TASK SECTION
 
-.table-content{
-  margin-top: 20px;
+// SETTINGS ELEMENTS
+.settings-container{
+    background-color: #ecf0f1;
+}
+
+.settings{
+  padding-top: 100px;
+}
+
+.btn-ac-space-one{
+    margin-top: 25px;
+}
+
+.btn-ac-space-two{
+  margin-top: 15px;
 }
 
 .set-title{
   padding-bottom: 50px;
 }
 
+
+.table-content{
+  margin-top: 20px;
+}
+
+// END SETTINGS ELEMENTS
+
+//STYLE FOR BUTTONS
+.btn-ac{
+  background-color: transparent;
+  border: 1px solid #000;
+}
+
+.btn-ac:hover, {
+  color: #000;
+  transition: 0.3s;
+}
+//END STYLE BUTTONS
+
+//FOOTER
+.coppy-r{
+  padding-top: 100px;
+  padding-bottom:100px;
+}
+
+.footer{
+  margin-top: 50px;
+  padding-bottom: 100px;
+}
+//FOOTER
+
+
+// HIDE ELEMENTS
+.show{
+    opacity:0;
+}
+//HIDE ELEMENTS
+
 // SCROLL BAR
-#custom::-webkit-scrollbar-track, #custom-div::-webkit-scrollbar-track
+#custom::-webkit-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 	background-color: #D2D7D3;
 }
 
-#custom::-webkit-scrollbar, #custom-div::-webkit-scrollbar
+#custom::-webkit-scrollbar
 {
 	width: 10px;
 	background-color: #D2D7D3;
 }
 
-#custom::-webkit-scrollbar-thumb, #custom::-webkit-scrollbar-thumbs
+#custom::-webkit-scrollbar-thumb
 {
 	background-color: #BDC3C7;
 	border: 2px solid #BDC3C7;
 }
-
+// END SCROLLBAR
 
 // HEADER EFFECT
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,500,800);
@@ -317,3 +320,4 @@ figure.snip1084.hover:after {
   -webkit-transform: scale(1);
   transform: scale(1);
 }
+// END HEADER EFFECT
