@@ -2,13 +2,13 @@
 <link href="https://fastcdn.org/Animate.css/3.4.0/animate.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
 <!-- HEADER -->
 
-<section class="container-fluid banner background text-center" align="center">
+<section class="container-fluid banner background text-center">
   <div class="banner-el layout-row layout-align-center-center">
-    <figure class="snip1084 red">
+    <figure class="img-banner bkg">
       <img class="layout-column layout-align-center-center" src="http://www.cityrider.com/fixed/43aspect.png" alt="background" />
       <figcaption>
         <h2 class="animated fadeInDown"><span>Task</span>App   </h2>
@@ -23,7 +23,7 @@
 
 <!-- TASK LIST SECTION -->
 <div class="container-fluid task-section-bkg show">
-  <div id="tasks" class="container task-section">
+  <div id="tasks" class="container task-section" id="task-section">
 
     <div class="col-lg-4 layout-align-space-around-center animated fadeInLeft">
       <h4 class="text-center">To do: {{todoTasks.length}} item/items</h4>
@@ -41,11 +41,11 @@
                 {{#card.media size="md"}}
                   {{#paper-list}}
                         {{#paper-item class="md-3-line"}}
-                          <div class="md-list-item-text">
-                            <h3 class="description-text">{{task.description}}</h3>
+                          <div class="md-list-item-text text-limiter-tasks">
+                            <h3>{{task.description}}</h3>
                             <h4>Type: {{task.tasktype.name}}</h4>
                             <h4>Assigned to: {{task.user.name}}</h4>
-                            <p class="time-details"> - Created at: {{task.createdAt}}</p>
+                            <p> - Created at: {{task.createdAt}}</p>
                           </div>
                           {{paper-divider}}
                         {{/paper-item}}
@@ -76,11 +76,11 @@
                   {{#card.media size="md"}}
                     {{#paper-list}}
                       {{#paper-item class="md-3-line"}}
-                        <div class="md-list-item-text">
-                          <h3 class="description-text">{{task.description }}</h3>
+                        <div class="md-list-item-text text-limiter-tasks">
+                          <h3>{{task.description }}</h3>
                           <h4>Type: {{task.tasktype.name }}</h4>
                           <h4>Assigned to: {{task.user.name }}</h4>
-                          <p class="time-details">Updated at: {{task.updatedAt}}</p>
+                          <p>Updated at: {{task.updatedAt}}</p>
                         </div>
                         {{paper-divider}}
                       {{/paper-item}}
@@ -110,11 +110,11 @@
                   {{#card.media size="md"}}
                     {{#paper-list}}
                           {{#paper-item class="md-3-line"}}
-                            <div class="md-list-item-text">
-                              <h3 class="description-text">{{task.description }}</h3>
+                            <div class="md-list-item-text text-limiter-tasks">
+                              <h3>{{task.description }}</h3>
                               <h4>Type: {{task.tasktype.name}}</h4>
                               <h4>Assigned to: {{task.user.name }}</h4>
-                              <p class="time-details">Updated at: {{task.updatedAt}}</p>
+                              <p>Updated at: {{task.updatedAt}}</p>
                             </div>
                           {{paper-divider}}
                         {{/paper-item}}
@@ -128,21 +128,77 @@
     {{/draggable-object-target}}
   </div>
 </div>
-
-<!-- ADD TASK BUTTON -->
-<div class="addTask layout-row layout-align-center">
-    {{#paper-button onClick=(action "toggleTaskDialog") class="add-task-btn"}}Add Task{{/paper-button}}
-</div>
-<!-- END ADD TASK BUTTON -->
-
+    <!-- ADD TASK BUTTON -->
+    <div class="addTask layout-row layout-align-center">
+        {{#paper-button onClick=(action "toggleTaskDialog") class="add-task-btn"}}Add Task{{/paper-button}}
+    </div>
+    <!-- END ADD TASK BUTTON -->
 </div>
 <!-- END TASK LIST SECTION -->
 
+<!-- DELETE TASK NOTIFICATION DIALOG -->
+{{#if showAnimatedDialog}}
+  {{#paper-dialog class="flex-50" onClose=(action "toggleAnimatedDialog") origin=dialogOrigin clickOutsideToClose=true}}
+    {{#paper-toolbar}}
+      {{#paper-toolbar-tools}}
+        <h2>Notification</h2>
+        <span class="flex"></span>
+      {{/paper-toolbar-tools}}
+    {{/paper-toolbar}}
+    {{#paper-dialog-content}}
+        <p>The task has been deleted.</p>
+    {{/paper-dialog-content}}
+    {{#paper-dialog-actions class="layout-row"}}
+      <span class="flex"></span>
+      {{#paper-button onClick=(action "toggleAnimatedDialog")}}<a id="cancel" href="#task-section">Close</a>{{/paper-button}}
+    {{/paper-dialog-actions}}
+  {{/paper-dialog}}
+{{/if}}
+<!--END DELETE TASK NOTIFICATION DIALOG -->
 
+<!-- DELETE USER NOTIFICATION DIALOG -->
+{{#if showUserDialog}}
+  {{#paper-dialog class="flex-40" onClose=(action "toggleUserDialog") origin=dialogOrigin clickOutsideToClose=true}}
+    {{#paper-toolbar}}
+      {{#paper-toolbar-tools}}
+        <h2>Notification</h2>
+        <span class="flex"></span>
+      {{/paper-toolbar-tools}}
+    {{/paper-toolbar}}
+    {{#paper-dialog-content}}
+        <p>The user has been deleted.</p>
+    {{/paper-dialog-content}}
+    {{#paper-dialog-actions class="layout-row"}}
+      <span class="flex"></span>
+      {{#paper-button onClick=(action "toggleUserDialog")}}<a id="cancel" href="#set">Close</a>{{/paper-button}}
+    {{/paper-dialog-actions}}
+  {{/paper-dialog}}
+{{/if}}
+<!--END DELETE USER NOTIFICATION DIALOG -->
+
+<!-- DELETE TASKTYPE NOTIFICATION DIALOG -->
+{{#if showTaskTypeDialog}}
+  {{#paper-dialog class="flex-40" onClose=(action "toggleTaskTypeDialog") origin=dialogOrigin clickOutsideToClose=true}}
+    {{#paper-toolbar}}
+      {{#paper-toolbar-tools}}
+        <h2>Notification</h2>
+        <span class="flex"></span>
+      {{/paper-toolbar-tools}}
+    {{/paper-toolbar}}
+    {{#paper-dialog-content}}
+        <p>The task type has been deleted.</p>
+    {{/paper-dialog-content}}
+    {{#paper-dialog-actions class="layout-row"}}
+      <span class="flex"></span>
+      {{#paper-button onClick=(action "toggleTaskTypeDialog")}}<a id="cancel" href="#set">Close</a>{{/paper-button}}
+    {{/paper-dialog-actions}}
+  {{/paper-dialog}}
+{{/if}}
+<!--END DELETE TASKTYPE NOTIFICATION DIALOG -->
 
 <!-- DETAILS DIALOG -->
 {{#if showDialog}}
-  {{#paper-dialog class="flex-50" onClose=(action "toggleDialog") clickOutsideToClose=true}}
+  {{#paper-dialog class="flex-40" onClose=(action "toggleDialog") clickOutsideToClose=true}}
     <form>
       {{#paper-toolbar}}
         {{#paper-toolbar-tools}}
@@ -163,9 +219,6 @@
   {{/paper-dialog}}
 {{/if}}
 <!-- END DETAILS DIALOG -->
-
-
-
 
 <!-- ADD TASK DIALOG -->
 {{#if showTaskDialog}}
@@ -206,7 +259,7 @@
     {{/paper-dialog-actions}}
   {{/paper-dialog}}
 {{/if}}
-<!-- END DIALOG -->
+<!-- END ADD DIALOG -->
 
 <!-- CSS LINE -->
 <div class="containter-fluid line"></div>
@@ -230,7 +283,7 @@
           </div>
             {{#paper-list class="userTable table-content" id="scroll"}}
             {{#each users as |user|}}
-              {{#paper-item class="md-3-line items"}}
+              {{#paper-item class="md-3-line table-items"}}
                 <img src="http://simpleicon.com/wp-content/uploads/user1.png" class="md-avatar img-responsive">
                 <div class="md-list-item-text">
                   <h4>{{user.name}}</h4>
@@ -248,7 +301,7 @@
           </div>
           {{#paper-list class="tasktypeTable table-content" id="scroll"}}
           {{#each tasktypes as |tasktype|}}
-            {{#paper-item class="md-3-line items"}}
+            {{#paper-item class="md-3-line table-items"}}
               <img src="http://icons.iconarchive.com/icons/icons8/windows-8/512/Very-Basic-Settings-icon.png" class="md-avatar img-responsive">
               <div class="md-list-item-text">
                 <h4>{{tasktype.name}}</h4>
@@ -267,6 +320,7 @@
   <!-- END GO UP BUTTON -->
 </section>
 
+<!-- @ Luminos Software -->
 <div class="coppy-r layout-row layout-align-center">
   <small>&copy; Internship 2017 @ Luminos Software</small>
 </div>
@@ -295,15 +349,7 @@ $("#show").click(function() {
      $('html, body').animate({
          scrollTop: $("#tasks").offset().top
      }, 1500);
- });
-});
-
-$(document).ready(function() {
-$("#divac").click(function() {
-     $('html, body').animate({
-         scrollTop: $("#tasks").offset().top
-     }, 1500);
- });
+  });
 // END SCROLLERS
 
 // HEADER EFFECT

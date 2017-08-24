@@ -1,3 +1,7 @@
+*{
+  font-family: 'Roboto', sans-serif;
+}
+
 // BANNER ELEMENTS
 .background{
   height: 900px;
@@ -65,7 +69,7 @@
   height: 500px;
 }
 
-.description-text, .time-details{
+.text-limiter-tasks{
   display: block;
   width: 210px;
   overflow: hidden;
@@ -108,6 +112,11 @@
     margin-top: 25px;
 }
 
+.settings-input{
+  margin-left: auto;
+  position: relative;
+}
+
 .btn-ac-space-two{
   margin-top: 15px;
 }
@@ -116,6 +125,16 @@
   padding-bottom: 50px;
 }
 
+.table-items{
+  border: 2px solid rgba(0,0,0,0.5);
+  margin-bottom: 5px;
+  width: 500px;
+}
+
+.table-items:hover{
+  background-color: #fffcf4;
+  transition: 0.3s;
+}
 
 .table-content{
   margin-top: 20px;
@@ -175,8 +194,8 @@
 // END SCROLLBAR
 
 // HEADER EFFECT
-@import url(https://fonts.googleapis.com/css?family=Raleway:400,500,800);
-figure.snip1084 {
+// @import url(https://fonts.googleapis.com/css?family=Raleway:400,500,800);
+figure.img-banner {
   font-family: 'Raleway', Arial, sans-serif;
   color: #000;
   position: relative;
@@ -192,7 +211,7 @@ figure.snip1084 {
   text-align: center;
 }
 
-figure.snip1084 * {
+figure.img-banner * {
   -webkit-box-sizing: padding-box;
   box-sizing: padding-box;
   -webkit-transition: all 0.3s ease-out;
@@ -200,12 +219,12 @@ figure.snip1084 * {
   color: #000;
 }
 
-figure.snip1084 img {
+figure.img-banner img {
   opacity: 1;
   width: 100%;
 }
 
-figure.snip1084 figcaption {
+figure.img-banner figcaption {
   top: 50%;
   left: 40px;
   right: 40px;
@@ -215,7 +234,7 @@ figure.snip1084 figcaption {
   color: #000;
 }
 
-figure.snip1084 figcaption h2 {
+figure.img-banner figcaption h2 {
   position: relative;
   font-weight: 400;
   text-transform: uppercase;
@@ -225,12 +244,12 @@ figure.snip1084 figcaption h2 {
   color: #000;
 }
 
-figure.snip1084 figcaption h2 span {
+figure.img-banner figcaption h2 span {
   font-weight: 800;
   color: #000;
 }
 
-figure.snip1084 figcaption p {
+figure.img-banner figcaption p {
   font-size: 0.9em;
   font-weight: 500;
   opacity: 0;
@@ -238,8 +257,8 @@ figure.snip1084 figcaption p {
   color: #000;
 }
 
-figure.snip1084:before,
-figure.snip1084:after {
+figure.img-banner:before,
+figure.img-banner:after {
   position: absolute;
   top: 20px;
   right: 20px;
@@ -252,7 +271,7 @@ figure.snip1084:after {
   transition: opacity 0.6s, -webkit-transform 0.6s, -moz-transform 0.6s, -o-transform 0.6s, transform 0.6s;
 }
 
-figure.snip1084:before {
+figure.img-banner:before {
   border-top: 1px double #fff;
   border-bottom: 1px double #fff;
   -webkit-transform: scale(0, 1);
@@ -260,7 +279,7 @@ figure.snip1084:before {
   color: #fff;
 }
 
-figure.snip1084:after {
+figure.img-banner:after {
   border-right: 1px double #fff;
   border-left: 1px double #fff;
   -webkit-transform: scale(1, 0);
@@ -268,7 +287,7 @@ figure.snip1084:after {
   color: #000;
 }
 
-figure.snip1084 a {
+figure.img-banner a {
   left: 0;
   right: 0;
   top: 0;
@@ -279,12 +298,12 @@ figure.snip1084 a {
   color: #fff;
 }
 
-figure.snip1084.red {
+figure.img-banner.bkg {
   background: transparent;
 }
 
-figure.snip1084:hover img,
-figure.snip1084.hover img {
+figure.img-banner:hover img,
+figure.img-banner.hover img {
   opacity: 0.2;
   -webkit-filter: blur(5px);
   filter: blur(5px);
@@ -293,10 +312,10 @@ figure.snip1084.hover img {
   color: #000;
 }
 
-figure.snip1084:hover figcaption h2,
-figure.snip1084.hover figcaption h2,
-figure.snip1084:hover figcaption p,
-figure.snip1084.hover figcaption p {
+figure.img-banner:hover figcaption h2,
+figure.img-banner.hover figcaption h2,
+figure.img-banner:hover figcaption p,
+figure.img-banner.hover figcaption p {
   opacity: 1;
   border-color: rgba(000, 000, 000, 0.5);
   -webkit-transition-delay: 0.2s;
@@ -306,16 +325,16 @@ figure.snip1084.hover figcaption p {
   color: #000;
 }
 
-figure.snip1084:hover figcaption p,
-figure.snip1084.hover figcaption p {
+figure.img-banner:hover figcaption p,
+figure.img-banner.hover figcaption p {
   -webkit-transition-delay: 0.3s;
   transition-delay: 0.3s;
 }
 
-figure.snip1084:hover:before,
-figure.snip1084.hover:before,
-figure.snip1084:hover:after,
-figure.snip1084.hover:after {
+figure.img-banner:hover:before,
+figure.img-banner.hover:before,
+figure.img-banner:hover:after,
+figure.img-banner.hover:after {
   opacity: 0.8;
   -webkit-transform: scale(1);
   transform: scale(1);

@@ -23,11 +23,18 @@ export default Ember.Controller.extend({
   }),
 
   selectedTask: null,
-  isShowingModal: false,
+
   showDialog: false,
   showTaskDialog: false,
+  showAnimatedDialog: false,
+  showTaskTypeDialog: false,
+  showUserDialog: false,
 
   actions: {
+
+    toggleUserDialog() {
+      this.toggleProperty('showUserDialog');
+    },
 
     deleteuser(userid) {
       let store = this.get('store');
@@ -36,6 +43,11 @@ export default Ember.Controller.extend({
       user.get('isDeleted');
       user.save();
       });
+      this.send('toggleUserDialog');
+    },
+
+    toggleTaskTypeDialog() {
+      this.toggleProperty('showTaskTypeDialog');
     },
 
     deletetasktype(tasktypeid) {
@@ -45,14 +57,19 @@ export default Ember.Controller.extend({
       tasktype.get('isDeleted');
       tasktype.save();
       });
+      this.send('toggleTaskTypeDialog');
     },
 
+    toggleAnimatedDialog() {
+      this.toggleProperty('showAnimatedDialog');
+    },
 
     deleteTask(taskid) {
         let store = this.get('store');
         store.findRecord('task', taskid, { backgroundReload: false }).then(function(task) {
         task.destroyRecord();
       });
+      this.send('toggleAnimatedDialog');
     },
 
 
@@ -78,60 +95,27 @@ export default Ember.Controller.extend({
         tasktype: this.store.peekRecord('tasktype', tasktypeId)
       });
       u.save();
-      this.send("toggleModal");
-    },
-    toggleModal: function() {
-        this.toggleProperty('isShowingModal');
-    },
-
-    addTask(taskDescription, userId, tasktypeId){
-      const u = this.store.createRecord('task', {
-        description: taskDescription,
-        status: "todo",
-        user: this.store.peekRecord('user', userId),
-        tasktype: this.store.peekRecord('tasktype', tasktypeId)
-      });
-      u.save();
       this.send("toggleTaskDialog");
     },
+
     toggleTaskDialog: function() {
         this.toggleProperty('showTaskDialog');
     },
 
+    updateStatus: function(task, ops) {
+       var status = ops.target.status;
+       task.set("status", status);
+       task.save();
+     },
 
-  updateStatus: function(task, ops) {
-     var status = ops.target.status;
-     task.set("status", status);
-     task.save();
-   },
+     toggleDialog: function() {
+         this.toggleProperty('showDialog');
+     },
 
-
-
-   toggleDialog: function() {
+     setSelectedTask(task) {
+       this.set('selectedTask', task)
        this.toggleProperty('showDialog');
-   },
-
-   setSelectedTask(task) {
-     this.set('selectedTask', task)
-     this.toggleProperty('showDialog');
-   },
-
-   updateTask(taskDescription, userId, tasktypeId){
-     const a = this.store.createRecord('task', {
-       description: taskDescription,
-       user: this.store.peekRecord('user', userId),
-       tasktype: this.store.peekRecord('tasktype', tasktypeId)
-     });
-     var status = ops.target.status;
-     task.set("description", description);
-     task.set("user", user);
-     task.set("tasktype", tasktype);
-     u.save();
-     this.send("toggleModal");
-   },
-   toggleModal: function() {
-       this.toggleProperty('isShowingModal');
-   }
+     },
 
  }
 });
