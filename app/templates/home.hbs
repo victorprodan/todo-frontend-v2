@@ -326,15 +326,6 @@
 
 <script>
 
-$(window).scroll(function(e){
-  parallax();
-});
-
-function parallax(){
-  var scrolled = $(window).scrollTop();
-  $('.background').css('top',-(scrolled*0.5)+'px');
-}
-
 // SCROLLERS
 $(document).ready(function() {
 $('#set-btn').click(function() {
