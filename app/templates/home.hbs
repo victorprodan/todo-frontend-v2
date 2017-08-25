@@ -5,11 +5,10 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
 <!-- HEADER -->
-
 <section class="container-fluid banner background text-center">
   <div class="banner-el layout-row layout-align-center-center">
     <figure class="img-banner bkg">
-      <img class="layout-column layout-align-center-center" src="http://www.cityrider.com/fixed/43aspect.png" alt="background" />
+      <img class="layout-column layout-align-center-center" src="http://www.cityrider.com/fixed/43aspect.png" />
       <figcaption>
         <h2 class="animated fadeInDown"><span>Task</span>App   </h2>
         <p>This application will help you manage your daily tasks</p>
@@ -207,9 +206,9 @@
         {{/paper-toolbar-tools}}
       {{/paper-toolbar}}
       {{#paper-dialog-content}}
-          <h3>Task description: {{selectedTask.description}}</h3>
+          <h3>Description: {{selectedTask.description}}</h3>
           <p>Assigned to: {{selectedTask.user.name}}</p>
-          <p>TaskType: {{selectedTask.tasktype.name}}</p>
+          <p>Type: {{selectedTask.tasktype.name}}</p>
       {{/paper-dialog-content}}
       {{#paper-dialog-actions class="layout-row"}}
         <span class="flex"></span>
@@ -231,22 +230,22 @@
     {{/paper-toolbar}}
 
     {{#paper-dialog-content class="layout-column"}}
-    {{#paper-input maxlength="45" label="Description" value=taskDescription onChange=(action (mut taskDescription)) required=true}}{{/paper-input}}
+    {{#paper-input maxlength="45" class="taskdescriptioninput" label="Description" value=newTask.description onChange=(action (mut newTask.description)) required=true}}{{/paper-input}}
 
     {{#paper-select
       placeholder="Assign to a user"
-      selected=selectedUser
+      selected=newTask.user
       options=users
-      onChange=(action (mut selectedUser))
+      onChange=(action (mut newTask.user))
       as |user|}}
       {{user.name}}
     {{/paper-select}}
 
     {{#paper-select
     placeholder="Choose a task type"
-    selected=selectedTaskType
+    selected=newTask.tasktype
     options=tasktypes
-    onChange=(action (mut selectedTaskType))
+    onChange=(action (mut newTask.tasktype))
     as |tasktype|}}
     {{tasktype.name}}
     {{/paper-select}}
@@ -254,7 +253,7 @@
 
     {{#paper-dialog-actions}}
       <span class="flex"></span>
-      {{#paper-button id="#divac" href="#tasks" onClick=(action "addTask" taskDescription selectedUser.id selectedTaskType.id)}}Create Task{{/paper-button}}
+      {{#paper-button id="#divac" href="#tasks" disbaled=false onClick=(action "addTask" newTask)}}Create Task{{/paper-button}}
       {{#paper-button onClick=(action "toggleTaskDialog")}}Cancel{{/paper-button}}
     {{/paper-dialog-actions}}
   {{/paper-dialog}}
@@ -278,8 +277,8 @@
 
         <div class="col-lg-6 text-center animated fadeInLeft" align="center">
           <div class="layout-row layout-align-center">
-            {{paper-input class="flex-30" label="Add a new user" value=userName onChange=(action (mut userName))}}
-            {{#paper-button class="btn-ac" onClick=(action "addUser" userName)}}Add User{{/paper-button}}
+            {{paper-input class="flex-30" label="Add a new user" value=newUser onChange=(action (mut newUser))}}
+            {{#paper-button class="btn-ac" onClick=(action "addUser" newUser)}}Add User{{/paper-button}}
           </div>
             {{#paper-list class="userTable table-content" id="scroll"}}
             {{#each users as |user|}}
@@ -296,8 +295,8 @@
 
         <div class="col-lg-6 text-center animated fadeInRight" align="center">
           <div class="layout-row layout-align-center">
-            {{paper-input class="flex-30" label="Add a new task type" value=taskTypeName onChange=(action (mut taskTypeName))}}
-            {{#paper-button class="btn-ac" onClick=(action "addTaskType" taskTypeName)}}Add Task Type{{/paper-button}}
+            {{paper-input class="flex-30" label="Add a new task type" value=newTaskType onChange=(action (mut newTaskType))}}
+            {{#paper-button class="btn-ac" onClick=(action "addTaskType" newTaskType)}}Add Task Type{{/paper-button}}
           </div>
           {{#paper-list class="tasktypeTable table-content" id="scroll"}}
           {{#each tasktypes as |tasktype|}}
@@ -326,6 +325,16 @@
 </div>
 
 <script>
+
+$(window).scroll(function(e){
+  parallax();
+});
+
+function parallax(){
+  var scrolled = $(window).scrollTop();
+  $('.background').css('top',-(scrolled*0.5)+'px');
+}
+
 // SCROLLERS
 $(document).ready(function() {
 $('#set-btn').click(function() {

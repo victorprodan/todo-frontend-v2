@@ -5,7 +5,9 @@ export default Ember.Controller.extend({
   tasks: Ember.computed(function() {
     return this.get('store').findAll('task');
   }),
-
+  newTask: Ember.computed(function() {
+    return this.store.createRecord('task');
+  }),
   todoTasks: Ember.computed('tasks.length','tasks.@each.status', function() {
     return this.get('tasks').filterBy('status','todo')
   }),
@@ -23,6 +25,8 @@ export default Ember.Controller.extend({
   }),
 
   selectedTask: null,
+  newUser: null,
+  newTaskType: null,
 
   showDialog: false,
   showTaskDialog: false,
@@ -72,31 +76,52 @@ export default Ember.Controller.extend({
       this.send('toggleAnimatedDialog');
     },
 
-
-    addUser(userName){
+    addUser(newUser) {
       const us = this.store.createRecord('user', {
-        name: userName
+        name: newUser
       });
       us.save();
+      this.set('newUser', '');
     },
 
-    addTaskType(taskTypeName){
+    addTaskType(newTaskType) {
       const tt = this.store.createRecord('tasktype', {
-        name: taskTypeName
+        name: newTaskType
       });
       tt.save();
+      this.set('newTaskType', '');
     },
+    // addUser(userName){
+    //   const us = this.store.createRecord('user', {
+    //     name: userName
+    //   });
+    //   us.save();
+    // },
 
-    addTask(taskDescription, userId, tasktypeId){
-      const u = this.store.createRecord('task', {
-        description: taskDescription,
-        status: "todo",
-        user: this.store.peekRecord('user', userId),
-        tasktype: this.store.peekRecord('tasktype', tasktypeId)
-      });
-      u.save();
-      this.send("toggleTaskDialog");
-    },
+    // addTaskType(taskTypeName){
+    //   const tt = this.store.createRecord('tasktype', {
+    //     name: taskTypeName
+    //   });
+    //   tt.save();
+    // },
+
+    addTask(task){
+       task.set('status', "todo");
+       task.save();
+       this.send('toggleTaskDialog');
+       this.set('newTask', this.store.createRecord('task'));
+     },
+
+    // addTask(taskDescription, userId, tasktypeId){
+    //   const u = this.store.createRecord('task', {
+    //     description: taskDescription,
+    //     status: "todo",
+    //     user: this.store.peekRecord('user', userId),
+    //     tasktype: this.store.peekRecord('tasktype', tasktypeId)
+    //   });
+    //   u.save();
+    //   this.send("toggleTaskDialog");
+    // },
 
     toggleTaskDialog: function() {
         this.toggleProperty('showTaskDialog');
