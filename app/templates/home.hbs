@@ -16,14 +16,14 @@
       </figcaption>
     </figure>
   </div>
-    {{#paper-button href="#set" id="getstarted" class="btn-ac animated fadeIn"}}Settings{{/paper-button}}
+    {{#paper-button href="#set" id="set-btn" class="btn-ac animated fadeIn"}}Settings{{/paper-button}}
     {{#paper-button href="#tasks" id="show" class="btn-ac animated fadeIn"}}View Tasks{{/paper-button}}
 </section>
 
 
 <!-- TASK LIST SECTION -->
-<div class="container-fluid task-section-bkg show">
-  <div id="tasks" class="container task-section" id="task-section">
+<div class="container-fluid show">
+  <div class="container task-section" id="task-section">
 
     <div class="col-lg-4 layout-align-space-around-center animated fadeInLeft">
       <h4 class="text-center">To do: {{todoTasks.length}} item/items</h4>
@@ -150,7 +150,7 @@
     {{/paper-dialog-content}}
     {{#paper-dialog-actions class="layout-row"}}
       <span class="flex"></span>
-      {{#paper-button onClick=(action "toggleAnimatedDialog")}}<a id="cancel" href="#task-section">Close</a>{{/paper-button}}
+      {{#paper-button onClick=(action "toggleAnimatedDialog")}}<a href="#task-section">Close</a>{{/paper-button}}
     {{/paper-dialog-actions}}
   {{/paper-dialog}}
 {{/if}}
@@ -170,7 +170,7 @@
     {{/paper-dialog-content}}
     {{#paper-dialog-actions class="layout-row"}}
       <span class="flex"></span>
-      {{#paper-button onClick=(action "toggleUserDialog")}}<a id="cancel" href="#set">Close</a>{{/paper-button}}
+      {{#paper-button onClick=(action "toggleUserDialog")}}<a href="#set">Close</a>{{/paper-button}}
     {{/paper-dialog-actions}}
   {{/paper-dialog}}
 {{/if}}
@@ -190,7 +190,7 @@
     {{/paper-dialog-content}}
     {{#paper-dialog-actions class="layout-row"}}
       <span class="flex"></span>
-      {{#paper-button onClick=(action "toggleTaskTypeDialog")}}<a id="cancel" href="#set">Close</a>{{/paper-button}}
+      {{#paper-button onClick=(action "toggleTaskTypeDialog")}}<a href="#set">Close</a>{{/paper-button}}
     {{/paper-dialog-actions}}
   {{/paper-dialog}}
 {{/if}}
@@ -213,7 +213,7 @@
       {{/paper-dialog-content}}
       {{#paper-dialog-actions class="layout-row"}}
         <span class="flex"></span>
-        {{#paper-button class="btn-ac" onClick=(action "toggleDialog")}}OK{{/paper-button}}
+        {{#paper-button class="btn-ac" onClick=(action "toggleDialog")}}<a href="#task-section">OK</a>{{/paper-button}}
       {{/paper-dialog-actions}}
     </form>
   {{/paper-dialog}}
@@ -315,7 +315,7 @@
 
   <!-- GO UP BUTTON -->
   <section class="container footer layout-row layout-align-center">
-  {{#paper-button id="bottom" class="btn-ac layout-row layout-align-center"}}Go Up{{/paper-button}}
+    {{#paper-button id="go-up" class="btn-ac go-up layout-row layout-align-center"}}Go Up{{/paper-button}}
   </section>
   <!-- END GO UP BUTTON -->
 </section>
@@ -326,20 +326,11 @@
 </div>
 
 <script>
-
 // SCROLLERS
 $(document).ready(function() {
-$("#bottom").click(function() {
+$('#set-btn').click(function() {
      $('html, body').animate({
-         scrollTop: $("#tasks").offset().top
-     }, 1500);
- });
-});
-
-$(document).ready(function() {
-$("#getstarted").click(function() {
-     $('html, body').animate({
-         scrollTop: $("#set").offset().top
+         scrollTop: $('#set').offset().top
      }, 1500);
  });
 });
@@ -347,12 +338,22 @@ $("#getstarted").click(function() {
 $(document).ready(function() {
 $("#show").click(function() {
      $('html, body').animate({
-         scrollTop: $("#tasks").offset().top
+         scrollTop: $("#task-section").offset().top
      }, 1500);
   });
+});
+
+$(document).ready(function() {
+$("#go-up").click(function() {
+     $('html, body').animate({
+         scrollTop: $("#task-section").offset().top
+     }, 1500);
+  });
+});
 // END SCROLLERS
 
 // HEADER EFFECT
+$(document).ready(function() {
 $("figure").mouseleave(
    function() {
      $(this).removeClass("hover");
